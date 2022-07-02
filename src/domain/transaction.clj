@@ -17,7 +17,7 @@
   (if-let [error (validator/humanized-error schema/suficient-balance?
                                             transfer)]
     error
-    (let [from (balance/new-balance source clojure.core/- amount)
-          to   (balance/new-balance destiny clojure.core/+ amount)]
+    (let [from (debit {:account source :amount amount})
+          to   (deposit {:account destiny :amount amount})]
       {:transfer {:source  from
                   :destiny to}})))
