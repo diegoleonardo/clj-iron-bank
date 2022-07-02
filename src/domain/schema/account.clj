@@ -34,9 +34,12 @@
                        [:map
                         [:number :int]
                         [:code :int]
-                        [:type [:enum "FP" "LP"]]
+                        [:type [:enum "NP" "LP"]]
                         [:balance :int]]))
 
-(def creating [:map
-               [:person person]
-               [:account account]])
+(def create [:map
+             [:person person]
+             [:account (-> account
+                           (mu/dissoc :number)
+                           (mu/dissoc :code)
+                           (mu/dissoc :balance))]])

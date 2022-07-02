@@ -3,7 +3,7 @@
             [domain.schema.account :as schema]))
 
 (defn create [value]
-  (if-let [error (validator/humanized-error schema/creating value)]
+  (if-let [error (validator/humanized-error schema/create value)]
     error
     (-> value
         (assoc-in [:account :balance] 0))))
