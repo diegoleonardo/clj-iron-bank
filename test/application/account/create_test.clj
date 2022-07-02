@@ -1,17 +1,18 @@
 (ns application.account.create-test
   (:require [application.account.create :as account-create]
             [clojure.test :refer [deftest testing is]]
-            [matcher-combinators.test :refer [match?]]))
+            [matcher-combinators.test :refer [match?]]
+            [mock.mock-utils :as mock-utils]))
 
-(def account-example {:person {:first-name "John"
-                               :last-name "Snow"
-                               :age 18}
+(def account-example {:person  {:first-name "John"
+                                :last-name  "Snow"
+                                :age        18}
                       :account {:username "john_snow"
                                 :password "got_2021"
-                                :email "john_snow@got.com"
-                                :document {:id 1
+                                :email    "john_snow@got.com"
+                                :document {:id   1
                                            :code :us}
-                                :type "NP"}})
+                                :type     "NP"}})
 
 (defn- map-or-vector? [v]
   (or (map? v)
@@ -19,9 +20,12 @@
 
 (def error-matcher {:error map-or-vector?})
 
+(def deps {:repository (mock-utils/account-repository)})
+
 (defn- assert-error [data]
   (is (match? error-matcher
-              (account-create/execute! data))))
+              (account-create/execute! deps
+                                       data))))
 
 (defn- dissoc-item [data key property]
   (let [new-item (-> data
@@ -32,8 +36,9 @@
 (deftest execute
   (testing "should be possible creating an account"
     (is (match? {:success true
-                 :data    map?}
-                (account-create/execute! account-example))))
+                 :data    {:account-id string?}}
+                (account-create/execute! deps
+                                         account-example))))
 
   (testing "should not be possible creating an account"
     (testing "when person data doens't exist"
