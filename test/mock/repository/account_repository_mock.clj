@@ -12,4 +12,7 @@
   (create [_ account]
     (let [id (id)]
       (assoc-in state [:state id] account)
-      id)))
+      id))
+
+  (fetch [_ account-id]
+    (get state account-id)))

@@ -14,13 +14,13 @@
                                            :code :us}
                                 :type     "NP"}})
 
+(def deps (mock-utils/account-repository))
+
 (defn- map-or-vector? [v]
   (or (map? v)
       (vector? v)))
 
 (def error-matcher {:error map-or-vector?})
-
-(def deps {:repository (mock-utils/account-repository)})
 
 (defn- assert-error [data]
   (is (match? error-matcher
