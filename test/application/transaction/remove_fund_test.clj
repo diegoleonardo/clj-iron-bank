@@ -10,7 +10,7 @@
                                         :state {}}))
 
 (deftest execute!
-  (testing "should add fund to an account"
+  (testing "should remove fund to an account"
     (let [repo (mock-utils/repository {:type :transaction
                                        :state {id [{:balance 5.0}]}})]
       (is (match? {:id      string?
@@ -19,7 +19,7 @@
                                      {:reference-id id
                                       :amount  5.0})))))
 
-  (testing "should not be able to add fund to an account when amount is invalid"
+  (testing "should not be able to remove fund to an account when amount is invalid"
     (is (match? {:error vector?}
                 (remove-fund/execute! repository
                                    {:account {:balance 5.0}
