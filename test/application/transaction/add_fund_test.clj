@@ -7,15 +7,16 @@
 (def repository (mock-utils/repository {:type :transaction
                                         :state {}}))
 
-(deftest execute
+(deftest execute!
   (testing "should add fund to an account"
-    (is (match? {:id string?}
-                (add-fund/execute repository
-                                  {:account {:balance 5.0}
-                                   :amount  5.0}))))
+    (is (match? {:id      string?
+                 :balance 10.0}
+                (add-fund/execute! repository
+                                   {:account {:balance 5.0}
+                                    :amount  5.0}))))
 
   (testing "should not be able to add fund to an account when amount is invalid"
     (is (match? {:error vector?}
-                (add-fund/execute repository
-                                  {:account {:balance 5.0}
-                                   :amount  -1})))))
+                (add-fund/execute! repository
+                                   {:account {:balance 5.0}
+                                    :amount  -1})))))
