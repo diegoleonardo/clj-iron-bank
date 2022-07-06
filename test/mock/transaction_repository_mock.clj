@@ -8,4 +8,9 @@
   (add-fund [_ add-fund-input]
     (let [id (gen-id/id)]
       (assoc-in state [:state id] add-fund-input)
-      id)))
+      id))
+
+  (current-balance [_ reference-id]
+    (->> reference-id
+         (get state)
+         :balance)))

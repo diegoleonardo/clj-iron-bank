@@ -14,5 +14,5 @@
                               (>= balance amount)))]])
 
 (def is-amount-valid? [:and
-                       number?
+                       [number?]
                        [:> 0.0]])

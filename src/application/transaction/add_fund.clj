@@ -5,12 +5,16 @@
             [domain.transaction :as transaction]))
 
 (defn- process [repository add-fund-input]
-  (let [{:keys [balance] :as fund-added} (transaction/deposit add-fund-input)]
-    (->> fund-added
+  (let [{:keys [balance] :as funds-added} (transaction/deposit add-fund-input)]
+    (->> funds-added
          (transaction-repository/add-fund repository)
          (assoc {} :balance balance :id))))
 
-(defn execute! [{:keys [repository]} {:keys [amount] :as input}]
-  (if-let [error (validator/humanized-error schema/is-amount-valid? amount)]
-    error
-    (process repository input)))
+(defn execute! [{:keys [repository]} {:keys [reference-id amount] :as input}]
+  (let [current (transaction-repository/current-balance repository reference-id)]
+    (if-let [error (or (validator/humanized-error schema/is-amount-valid? amount)
+                       (validator/humanized-error schema/is-amount-valid? current))]
+      error
+      (->> current
+           (assoc-in input [:account :balance])
+           (process repository)))))
