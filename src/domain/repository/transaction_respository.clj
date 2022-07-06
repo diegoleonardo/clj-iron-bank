@@ -1,5 +1,5 @@
 (ns domain.repository.transaction-respository)
 
 (defprotocol transaction-repository
-  (add-fund [this add-fund-input])
+  (save [this transaction])
   (current-balance [this reference-id]))

@@ -5,9 +5,9 @@
 (defrecord transaction-repository-mock [state]
   transaction-repository/transaction-repository
 
-  (add-fund [_ add-fund-input]
+  (save [_ transaction]
     (let [id (gen-id/id)]
-      (assoc-in state [:state id] add-fund-input)
+      (assoc-in state [:state id] transaction)
       id))
 
   (current-balance [_ reference-id]
