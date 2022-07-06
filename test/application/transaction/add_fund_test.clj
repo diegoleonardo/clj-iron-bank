@@ -12,7 +12,7 @@
 (deftest execute!
   (testing "should add fund to an account"
     (let [repo (mock-utils/repository {:type :transaction
-                                       :state {id {:balance 5.0}}})]
+                                       :state {id [{:balance 5.0}]}})]
       (is (match? {:id      string?
                    :balance 10.0}
                   (add-fund/execute! repo

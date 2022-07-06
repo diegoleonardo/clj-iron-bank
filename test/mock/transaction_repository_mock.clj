@@ -5,12 +5,15 @@
 (defrecord transaction-repository-mock [state]
   transaction-repository/transaction-repository
 
-  (save [_ transaction]
-    (let [id (gen-id/id)]
-      (assoc-in state [:state id] transaction)
+  (save [_ {:keys [reference-id] :as transaction}]
+    (let [id (gen-id/id)
+          transaction-to-persist (assoc transaction :id id)
+          transactions (get state reference-id)]
+      (conj transactions transaction-to-persist)
       id))
 
   (current-balance [_ reference-id]
     (->> reference-id
          (get state)
+         last
          :balance)))
