@@ -2,7 +2,7 @@
   (:require [application.account.create :as account-create]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [mock.mock-utils :as mock-utils]))
+            [mock.utils :as mock-utils]))
 
 (def account-example {:person  {:first-name "John"
                                 :last-name  "Snow"

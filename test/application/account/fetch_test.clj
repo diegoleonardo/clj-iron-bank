@@ -2,7 +2,7 @@
   (:require [application.account.fetch :as fetch]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [mock.mock-utils :as mock-utils]))
+            [mock.utils :as mock-utils]))
 
 (def expected-matcher {:person map?
                        :account map?})

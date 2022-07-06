@@ -1,4 +1,4 @@
-(ns mock.repository.account-repository-mock
+(ns mock.account-repository-mock
   (:require [domain.repository.account-repository :as account-repository])
   (:import [java.util UUID]))
 
@@ -15,4 +15,12 @@
       id))
 
   (fetch [_ account-id]
-    (get state account-id)))
+    (get state account-id))
+
+  (patch [_ account-id account]
+    (-> (update state
+                account-id
+                (fn [_ new]
+                  new)
+                account)
+        (get account-id))))

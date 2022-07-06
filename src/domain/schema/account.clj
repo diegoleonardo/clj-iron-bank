@@ -43,3 +43,7 @@
                            (mu/dissoc :number)
                            (mu/dissoc :code)
                            (mu/dissoc :balance))]])
+
+(def update (-> [:map
+                 [:identifier :any]]
+                (mu/merge create)))

@@ -1,7 +1,7 @@
 (ns application.transaction.add-fund-test
   (:require [application.transaction.add-fund :as add-fund]
             [clojure.test :refer [deftest testing is]]
-            [mock.mock-utils :as mock-utils]
+            [mock.utils :as mock-utils]
             [matcher-combinators.test :refer [match?]]))
 
 (def repository (mock-utils/repository {:type :transaction
