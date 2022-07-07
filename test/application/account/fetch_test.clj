@@ -12,7 +12,7 @@
   ([data]
    (mock-utils/account-repository data)))
 
-(def account-id "3566688d-98d9-498d-be5d-c0227cec1ec8")
+(def reference-id "3566688d-98d9-498d-be5d-c0227cec1ec8")
 
 (def data {:person  {:first-name "John"
                      :last-name  "Snow"
@@ -25,7 +25,7 @@
                      :type     "NP"}})
 
 (deftest execute
-  (let [dependencies (deps {account-id data})]
+  (let [dependencies (deps {reference-id data})]
     (testing "should return an account when send valid id"
       (is (match? expected-matcher
-                  (fetch/execute dependencies account-id))))))
+                  (fetch/execute dependencies reference-id))))))

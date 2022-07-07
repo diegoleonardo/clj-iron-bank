@@ -14,7 +14,7 @@
                                    :code :us}
                         :type     "NP"}})
 
-(def account-example (merge {:identifier "12345"}
+(def account-example (merge {:reference-id "12345"}
                             account))
 
 (defn init-state [id data]
@@ -22,9 +22,9 @@
 
 (def repository
   (let [state (-> account-example
-                  :identifier
+                  :reference-id
                   (init-state account-example))]
-    (mock-utils/repository {:type :account
+    (mock-utils/repository {:type  :account
                             :state state})))
 
 (deftest execute
@@ -37,8 +37,8 @@
       (is (match? {:person {:first-name "Tyrion"}}
                   (update-account/execute! repository updated-data)))))
 
-  (testing "should return error when trying to update without identifier"
-    (is (match? {:error {:identifier [string?]}}
+  (testing "should return error when trying to update without reference-id"
+    (is (match? {:error {:reference-id [string?]}}
                 (update-account/execute! repository account))))
 
   (testing "should return error when trying to update an unexistent account"

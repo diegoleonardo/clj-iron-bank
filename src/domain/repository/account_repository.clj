@@ -2,5 +2,5 @@
 
 (defprotocol account-repository
   (create [this account])
-  (fetch [this account-id])
-  (patch [this account-id account]))
+  (fetch [this reference-id])
+  (patch [this reference-id account]))

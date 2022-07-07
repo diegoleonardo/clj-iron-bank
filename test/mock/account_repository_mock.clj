@@ -14,13 +14,13 @@
       (assoc-in state [:state id] account)
       id))
 
-  (fetch [_ account-id]
-    (get state account-id))
+  (fetch [_ reference-id]
+    (get state reference-id))
 
-  (patch [_ account-id account]
+  (patch [_ reference-id account]
     (-> (update state
-                account-id
+                reference-id
                 (fn [_ new]
                   new)
                 account)
-        (get account-id))))
+        (get reference-id))))

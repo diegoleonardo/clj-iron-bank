@@ -45,5 +45,5 @@
                            (mu/dissoc :balance))]])
 
 (def update (-> [:map
-                 [:identifier :any]]
+                 [:reference-id :any]]
                 (mu/merge create)))
