@@ -14,7 +14,8 @@
                         io.github.cognitect-labs/test-runner
                         {:git/tag "v0.5.0" :git/sha "48c3c67"}}
           :main-opts   ["-m" "cognitect.test-runner"
-                        "-d" "test"]}
+                        "-d" "test"]
+          :exec-fn     cognitect.test-runner.api/test}
 
   :coverage {:extra-paths ["test"]
              :extra-deps  {cloverage/cloverage {:mvn/version "1.2.4"}}

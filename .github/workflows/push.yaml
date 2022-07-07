@@ -51,4 +51,4 @@ jobs:
         run: clj-kondo --lint src
 
       - name: Run unit tests
-        run: clojure -M:test
+        run: clojure -X:test
