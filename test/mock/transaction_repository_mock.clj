@@ -12,6 +12,17 @@
       (conj transactions transaction-to-persist)
       id))
 
+  (transfer [_ source destiny]
+    (let [source-id (gen-id/id)
+          destiny-id (gen-id/id)
+          source-transaction (assoc source :id source-id)
+          destiny-transaction (assoc destiny :id destiny-id)]
+      (-> state
+          (assoc (:reference-id source) (conj (get state (:reference-id source)) source-transaction))
+          (assoc (:reference-id destiny) (conj (get state (:reference-id destiny)) destiny-transaction)))
+      {:source-id source-id
+       :destiny-id destiny-id}))
+
   (current-balance [_ reference-id]
     (->> reference-id
          (get state)
