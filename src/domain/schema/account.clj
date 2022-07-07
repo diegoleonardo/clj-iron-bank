@@ -1,5 +1,6 @@
 (ns domain.schema.account
-  (:require [malli.util :as mu]))
+  (:require [malli.util :as mu])
+  (:refer-clojure :exclude [update]))
 
 (def minimum-age 18)
 
