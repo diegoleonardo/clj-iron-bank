@@ -2,31 +2,11 @@
   (:require [application.account.fetch :as fetch]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [mock.utils :as mock-utils]
-            [application.util :as utils]))
-
-(def expected-matcher (utils/matcher {:person map?
-                                      :account map?}))
-
-(defn deps
-  ([] (deps {}))
-  ([data]
-   (mock-utils/account-repository data)))
-
-(def reference-id "3566688d-98d9-498d-be5d-c0227cec1ec8")
-
-(def data {:person  {:first-name "John"
-                     :last-name  "Snow"
-                     :age        18}
-           :account {:username "john_snow"
-                     :password "got_2021"
-                     :email    "john_snow@got.com"
-                     :document {:id   1
-                                :code :us}
-                     :type     "NP"}})
+            [utils.account :as account-utils]))
 
 (deftest execute
-  (let [dependencies (deps {reference-id data})]
+  (let [ref-id account-utils/reference-id
+        dependencies (account-utils/deps {ref-id account-utils/account-example})]
     (testing "should return an account when send valid id"
-      (is (match? expected-matcher
-                  (fetch/execute dependencies reference-id))))))
+      (is (match? account-utils/expected-matcher
+                  (fetch/execute dependencies ref-id))))))
