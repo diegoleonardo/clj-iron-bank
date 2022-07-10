@@ -15,6 +15,6 @@ lint:
 unit-test:
   stage: test
   when: always
-  image: clojure:tools-deps-alpine
+  image: clojure:temurin-17-tools-deps-alpine
   script:
-    - clojure -X:test
+    - clojure -M:test
