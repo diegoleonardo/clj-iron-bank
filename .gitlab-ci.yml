@@ -6,7 +6,7 @@ variables:
 
 lint:
   stage: test
-  image: borkdude/clj-kondo
+  image: cljkondo/clj-kondo:2022.06.22-alpine
   cache: {}
   when: always
   script:
