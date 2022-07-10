@@ -2,7 +2,8 @@
   (:require [application.account.create :as account-create]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [mock.utils :as mock-utils]))
+            [mock.utils :as mock-utils]
+            [application.util :as utils]))
 
 (def account-example {:person  {:first-name "John"
                                 :last-name  "Snow"
@@ -16,14 +17,8 @@
 
 (def deps (mock-utils/account-repository))
 
-(defn- map-or-vector? [v]
-  (or (map? v)
-      (vector? v)))
-
-(def error-matcher {:error map-or-vector?})
-
 (defn- assert-error [data]
-  (is (match? error-matcher
+  (is (match? utils/error-matcher
               (account-create/execute! deps
                                        data))))
 
@@ -35,8 +30,7 @@
 
 (deftest execute
   (testing "should be possible creating an account"
-    (is (match? {:success true
-                 :data    {:account-id string?}}
+    (is (match? (utils/matcher {:account-id string?})
                 (account-create/execute! deps
                                          account-example))))
 

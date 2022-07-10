@@ -43,22 +43,37 @@
                                               "accept"       "application/transit+json"}
                              :body-params    account-example})]
         (is (match? {:status 200} response))
-        (is (match? {:success true
-                     :data    {:account-id string?}}
+        (is (match? {:account-id string?}
                     (m/decode-response-body response)))))
 
     (testing "to fetch an account"
-      (let [route    (-> (deps {reference-id account-example})
-                         account/route
-                         adapter/->reitit-adapter
-                         router/create)
-            response (route {:request-method :get
-                             :uri            (str "/v1/account/" reference-id)
-                             :headers        {"content-type" "application/edn"
-                                              "accept"       "application/transit+json"}})]
-        (is (match? {:status 200} response))
-        (is (match? expected-matcher
-                    (m/decode-response-body response)))))
+      (testing "found"
+        (let [route    (-> (deps {reference-id account-example})
+                           account/route
+                           adapter/->reitit-adapter
+                           router/create)
+              response (route {:request-method :get
+                               :uri            (str "/v1/account/" reference-id)
+                               :headers        {"content-type" "application/json"
+                                                "accept"       "application/transit+json"}})]
+          response
+          (is (match? {:status 200} response))
+          (is (match? expected-matcher
+                      (m/decode-response-body response)))))
+
+      (testing "not found"
+        (let [route    (-> (deps)
+                           account/route
+                           adapter/->reitit-adapter
+                           router/create)
+              response (route {:request-method :get
+                               :uri            (str "/v1/account/" reference-id)
+                               :headers        {"content-type" "application/json"
+                                                "accept"       "application/transit+json"}})]
+          response
+          (is (match? {:status 404} response))
+          (is (match? {}
+                      (m/decode-response-body response))))))
 
     (testing "to patch an account"
       (let [route    (-> (deps {reference-id account-example})

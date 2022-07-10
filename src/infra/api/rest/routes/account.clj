@@ -1,27 +1,27 @@
 (ns infra.api.rest.routes.account
   (:require [application.account.create :as create]
             [application.account.fetch :as fetch]
-            [application.account.update :as update])
+            [application.account.update :as update]
+            [infra.api.rest.routes.response-handler :as response])
   (:refer-clojure :exclude [update]))
 
 (defn- create-handler [{:keys [body-params deps]}]
-  (let [id (create/execute! deps body-params)]
-    {:status 200
-     :body   id}))
+  (let [result (create/execute! deps body-params)]
+    (response/response result)))
 
 (defn- update-handler [{:keys [path-params body-params deps]}]
   (let [reference-id (:reference-id path-params)
         data         (->> reference-id
                           (assoc body-params :reference-id)
                           (update/execute! deps))]
-    {:status 200
-     :body   data}))
+    (response/response data)))
 
 (defn- fetch-handler [{:keys [path-params deps]}]
-  (let [reference-id (:reference-id path-params)
-        account      (fetch/execute deps reference-id)]
-    {:status 200
-     :body   account}))
+  (let [reference-id              (:reference-id path-params)
+        {:keys [data] :as result} (fetch/execute deps reference-id)]
+    (if (empty? data)
+      (response/not-found)
+      (response/response result))))
 
 (defn- wrap-dependencies [deps]
   {:name ::wrap-dependencies

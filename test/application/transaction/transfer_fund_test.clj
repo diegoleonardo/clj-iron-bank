@@ -2,7 +2,8 @@
   (:require [application.transaction.transfer-fund :as transfer-fund]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [mock.utils :as mock-utils]))
+            [mock.utils :as mock-utils]
+            [application.util :as utils]))
 
 (def source-id "1234")
 
@@ -26,19 +27,19 @@
   (update m k (fn [_] [v])))
 
 (defn assert-error [repository param]
-  (is (match? {:error vector?}
+  (is (match? utils/error-matcher
               (transfer-fund/execute! repository param))))
 
 (deftest execute!
   (testing "should transfer the fund between accounts"
-    (is (match? {:source  {:id string? :balance 50.0}
-                 :destiny {:id string? :balance 150.0}}
+    (is (match? (utils/matcher {:source  {:id string? :balance 50.0}
+                                :destiny {:id string? :balance 150.0}})
                 (transfer-fund/execute! repository transfer-example))))
 
   (testing "should not transfer the fund when source balance is insuficient"
     (let [repo (mock-utils/repository {:type  :transaction
                                        :state (invalidate-data init-state source-id {:balance 10.0})})]
-      (is (match? {:error vector?}
+      (is (match? utils/error-matcher
                   (transfer-fund/execute! repo transfer-example)))))
 
   (testing "should not transfer when"
