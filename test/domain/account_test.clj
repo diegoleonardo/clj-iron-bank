@@ -1,8 +1,7 @@
 (ns domain.account-test
   (:require [domain.account :as account]
             [clojure.test :refer [deftest testing is]]
-            [matcher-combinators.test :refer [match?]]
-            [domain.validator :as validator]))
+            [matcher-combinators.test :refer [match?]]))
 
 (deftest create-account
   (testing "should be possible create an account when input data is valid"
