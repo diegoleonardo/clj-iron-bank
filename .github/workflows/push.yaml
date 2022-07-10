@@ -45,7 +45,7 @@ jobs:
         run: clj-kondo --version
 
       - name: Run clj-kondo
-        run: clj-kondo --lint src
+        run: clj-kondo --lint src test --config '{:output {:exclude-files ["java"]}}'
 
       - name: Run unit tests
         run: clojure -X:test
