@@ -1,0 +1,20 @@
+stages:
+  - test
+
+variables:
+  GIT_DEPTH: 3
+
+lint:
+  stage: test
+  image: borkdude/clj-kondo
+  cache: {}
+  when: always
+  script:
+  - clj-kondo --lint src test --config '{:output {:exclude-files ["java"]}}'
+
+unit-test:
+  stage: test
+  when: always
+  image: clojure:tools-deps-alpine
+  script:
+    - clojure -X:test
