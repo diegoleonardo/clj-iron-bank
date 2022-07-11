@@ -2,10 +2,11 @@
   (:require [application.account.create :as account-create]
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
-            [utils.account :as account-utils]))
+            [utils.account :as account-utils]
+            [utils.application-matcher :as application-matcher]))
 
 (defn- assert-error [data]
-  (is (match? account-utils/error-matcher
+  (is (match? application-matcher/error-matcher
               (account-create/execute! account-utils/deps
                                        data))))
 
@@ -17,7 +18,7 @@
 
 (deftest execute
   (testing "should be possible creating an account"
-    (is (match? (account-utils/matcher {:account-id string?})
+    (is (match? (application-matcher/matcher {:account-id string?})
                 (account-create/execute! (account-utils/deps)
                                          account-utils/account-example))))
 
@@ -27,7 +28,7 @@
 
     (testing "when person's required field is missing"
       (assert-error (dissoc-item account-utils/account-example :person :first-name))
-      (assert-error (dissoc-item  account-utils/account-example :person :last-name))
+      (assert-error (dissoc-item account-utils/account-example :person :last-name))
       (assert-error (dissoc-item account-utils/account-example :person :age)))
 
     (testing "when person's data is invalid"

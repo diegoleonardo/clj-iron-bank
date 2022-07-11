@@ -1,5 +1,6 @@
 (ns utils.account
-  (:require [mock.utils :as mock-utils]))
+  (:require [mock.utils :as mock-utils]
+            [utils.application-matcher :as application-matcher]))
 
 (def reference-id "3566688d-98d9-498d-be5d-c0227cec1ec8")
 
@@ -15,24 +16,11 @@
 
 (def account-data-store-example {reference-id account-example})
 
-(defn- map-or-vector? [v]
-  (or (map? v)
-      (vector? v)))
-
-(def error-matcher {:success false
-                    :data    {:error map-or-vector?}})
-
-(defn matcher
-  ([data] (matcher true data))
-  ([success data]
-   {:success success
-    :data    data}))
-
 (def expected-response {:person  map?
                         :account map?})
 
-(def expected-matcher (matcher {:person map?
-                                :account map?}))
+(def expected-matcher (application-matcher/matcher {:person map?
+                                                    :account map?}))
 
 (defn deps
   ([] (deps {}))

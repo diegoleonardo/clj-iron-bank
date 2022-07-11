@@ -3,7 +3,7 @@
             [clojure.test :refer [deftest testing is]]
             [matcher-combinators.test :refer [match?]]
             [mock.utils :as mock-utils]
-            [application.util :as utils]))
+            [utils.application-matcher :as utils]))
 
 (def source-id "1234")
 
