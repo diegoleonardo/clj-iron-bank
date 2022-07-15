@@ -1,5 +1,6 @@
 (ns infra.api.rest.routes.account
-  (:require [application.account.create :as create]
+  (:require [infra.api.rest.middleware :as middleware]
+            [application.account.create :as create]
             [application.account.fetch :as fetch]
             [application.account.update :as update]
             [infra.api.rest.routes.response-handler :as response])
@@ -23,16 +24,9 @@
       (response/not-found)
       (response/response result))))
 
-(defn- wrap-dependencies [deps]
-  {:name ::wrap-dependencies
-   :wrap (fn [handler]
-           (fn [request]
-             (let [new-request (assoc request :deps deps)]
-               (handler new-request))))})
-
 (defn route [deps]
   ["/account"
-   {:middleware [(wrap-dependencies deps)]}
+   {:middleware [(middleware/wrap-dependencies deps)]}
    ["" {:post {:summary "Route to create an account"
                :handler create-handler}}]
    ["/:reference-id" {:get {:summary "Route to get an account data"
