@@ -24,13 +24,24 @@
       (response/not-found)
       (response/response result))))
 
+(def wrap-keyword-code
+  {:name ::wrap-keyword-code
+   :wrap (fn [handler]
+           (fn [{:keys [body-params] :as request}]
+             (let [new-request (->> (update-in body-params [:account :document :code] keyword)
+                                    (assoc request :body-params))]
+               (handler new-request))))})
+
 (defn route [deps]
   ["/account"
    {:middleware [(middleware/wrap-dependencies deps)]}
-   ["" {:post {:summary "Route to create an account"
-               :handler create-handler}}]
+   [""
+    {:middleware [wrap-keyword-code]
+     :post {:summary "Route to create an account"
+            :handler create-handler}}]
    ["/:reference-id" {:get {:summary "Route to get an account data"
                             :handler fetch-handler}
 
                       :patch {:summary "Route to update an account"
+                              :middleware [wrap-keyword-code]
                               :handler update-handler}}]])

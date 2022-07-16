@@ -18,7 +18,7 @@
 
 (deftest execute
   (testing "should be possible creating an account"
-    (is (match? (application-matcher/matcher {:account-id string?})
+    (is (match? (application-matcher/matcher {:reference-id string?})
                 (account-create/execute! (account-utils/deps)
                                          account-utils/account-example))))
 

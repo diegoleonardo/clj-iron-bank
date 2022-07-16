@@ -13,6 +13,6 @@
                             (let [balance (:balance source)]
                               (>= balance amount)))]])
 
-(def is-amount-valid? [:and
+(def is-amount-valid? [:and {:error/message "Amount is invalid. It must be a number and greater or equal to 0.0"}
                        [number?]
-                       [:> 0.0]])
+                       [:>= 0.0]])

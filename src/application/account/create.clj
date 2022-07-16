@@ -8,11 +8,11 @@
 (defn- process [{:keys [repository]} account-input]
   (let [account (account/create account-input)
         account-id (account-repository/create repository account)]
-    {:account-id account-id}))
+    {:reference-id account-id}))
 
 (defn execute! [deps account-input]
   (if-let [error (validator/humanized-error schema/create account-input)]
     (response/error error)
     (->> account-input
          (process deps)
-         (response/success))))
+         response/success)))

@@ -21,7 +21,7 @@
                                             "accept"       "application/transit+json"}
                            :body-params    account-utils/account-example})]
       (is (match? {:status 200} response))
-      (is (match? {:account-id string?}
+      (is (match? {:reference-id string?}
                   (m/decode-response-body response))))))
 
 (deftest fetch
