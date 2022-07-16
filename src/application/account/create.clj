@@ -6,7 +6,7 @@
             [application.response-handler :as response]))
 
 (defn- process [{:keys [repository]} account-input]
-  (let [account (account/create account-input)
+  (let [account    (account/create account-input)
         account-id (account-repository/create repository account)]
     {:reference-id account-id}))
 
