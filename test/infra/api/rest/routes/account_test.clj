@@ -20,9 +20,8 @@
                            :headers        {"content-type" "application/edn"
                                             "accept"       "application/transit+json"}
                            :body-params    account-utils/account-example})]
-      {:foo response :bar route}
-      #_(is (match? {:status 200} response))
-      #_(is (match? {:account-id string?}
+      (is (match? {:status 200} response))
+      (is (match? {:account-id string?}
                   (m/decode-response-body response))))))
 
 (deftest fetch
