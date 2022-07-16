@@ -6,7 +6,7 @@
 (deftest deposit
   (testing "should be possible to add funds when input data is valid"
     (is (match? {:balance 20.0
-                 :username "john snow"}
+                 :account {:username "john snow"}}
                 (transaction/deposit {:account {:balance  10.0
                                                 :username "john snow"}
                                       :amount  10.0}))))
@@ -20,7 +20,7 @@
 (deftest debit
   (testing "should be possible to debit when input data is valid"
     (is (match? {:balance 5.0
-                 :username "john snow"}
+                 :account {:username "john snow"}}
                 (transaction/debit {:account {:balance  10.0
                                               :username "john snow"}
                                     :amount  5.0}))))
