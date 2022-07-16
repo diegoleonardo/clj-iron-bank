@@ -24,33 +24,33 @@
 
 (deftest fetch
   (testing "should create a route to fetch an account"
-      (testing "found"
-        (let [route    (-> (account-utils/deps account-utils/account-data-store-example)
-                           account/route
-                           adapter/->reitit-adapter
-                           router/create)
-              response (route {:request-method :get
-                               :uri            (str "/v1/account/" account-utils/reference-id)
-                               :headers        {"content-type" "application/json"
-                                                "accept"       "application/transit+json"}})]
-          response
-          (is (match? {:status 200} response))
-          (is (match? account-utils/expected-response
-                      (m/decode-response-body response)))))
+    (testing "found"
+      (let [route    (-> (account-utils/deps account-utils/account-data-store-example)
+                         account/route
+                         adapter/->reitit-adapter
+                         router/create)
+            response (route {:request-method :get
+                             :uri            (str "/v1/account/" account-utils/reference-id)
+                             :headers        {"content-type" "application/json"
+                                              "accept"       "application/transit+json"}})]
+        response
+        (is (match? {:status 200} response))
+        (is (match? account-utils/expected-response
+                    (m/decode-response-body response)))))
 
-      (testing "not found"
-        (let [route    (-> (account-utils/deps)
-                           account/route
-                           adapter/->reitit-adapter
-                           router/create)
-              response (route {:request-method :get
-                               :uri            (str "/v1/account/" account-utils/reference-id)
-                               :headers        {"content-type" "application/json"
-                                                "accept"       "application/transit+json"}})]
-          response
-          (is (match? {:status 404} response))
-          (is (match? {}
-                      (m/decode-response-body response)))))))
+    (testing "not found"
+      (let [route    (-> (account-utils/deps)
+                         account/route
+                         adapter/->reitit-adapter
+                         router/create)
+            response (route {:request-method :get
+                             :uri            (str "/v1/account/" account-utils/reference-id)
+                             :headers        {"content-type" "application/json"
+                                              "accept"       "application/transit+json"}})]
+        response
+        (is (match? {:status 404} response))
+        (is (match? {}
+                    (m/decode-response-body response)))))))
 
 (deftest patch
   (testing "should create a route to patch an account"
