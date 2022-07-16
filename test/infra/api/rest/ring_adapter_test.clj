@@ -15,9 +15,8 @@
 
 (deftest ^:integration listen
   (testing "should startup a http server"
-    (let [config   {:port   3000
-                    :routes handler}
-          adapter  (ring-adapter/->ring-adapter)
+    (let [config   {:port   3000}
+          adapter  (ring-adapter/->ring-adapter handler)
           endpoint (str "http://localhost:" (:port config))
           server   (http-server/listen adapter config)]
       (is (match? {:status 200

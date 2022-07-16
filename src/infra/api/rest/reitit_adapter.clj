@@ -16,7 +16,7 @@
 (defn- create-routes [routes]
   (ring/ring-handler
    (ring/router
-    ["/v1" routes]
+    ["/api/v1" routes]
     {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
       ;;:validate spec/validate ;; enable spec validation for route data
       ;;:reitit.spec/wrap spell/closed ;; strict top-level validation

@@ -7,6 +7,10 @@
             [mock.utils :as utils]
             [infra.api.rest.routes.transaction :as transaction]))
 
+(def funds-path "/api/v1/transactions/funds")
+
+(def transfer-path "/api/v1/transactions/transfers")
+
 (defn route [state]
   (-> (utils/repository {:type  :transaction
                          :state state})
@@ -18,7 +22,7 @@
   (testing "should create a route to add funds"
     (let [route    (route {"1" [{:balance 10.0}]})
           response (route {:request-method :post
-                           :uri            "/v1/transactions/funds"
+                           :uri            funds-path
                            :headers        {"content-type" "application/edn"
                                             "accept"       "application/transit+json"}
                            :body-params    {:reference-id "1"
@@ -30,7 +34,7 @@
   (testing "should return bad request when data is invalid"
     (let [route    (route {"1" [{:balance 10.0}]})
           response (route {:request-method :post
-                           :uri            "/v1/transactions/funds"
+                           :uri            funds-path
                            :headers        {"content-type" "application/edn"
                                             "accept"       "application/transit+json"}
                            :body-params    {:amount       10.0}})]
@@ -40,7 +44,7 @@
   (testing "should create a route to remove funds"
     (let [route    (route {"1" [{:balance 10.0}]})
           response (route {:request-method :delete
-                           :uri            "/v1/transactions/funds"
+                           :uri            funds-path
                            :headers        {"content-type" "application/edn"
                                             "accept"       "application/transit+json"}
                            :body-params    {:reference-id "1"
@@ -52,7 +56,7 @@
   (testing "should return bad request when data is invalid"
     (let [route    (route {"1" [{:balance 10.0}]})
           response (route {:request-method :delete
-                           :uri            "/v1/transactions/funds"
+                           :uri            funds-path
                            :headers        {"content-type" "application/edn"
                                             "accept"       "application/transit+json"}
                            :body-params    {:amount 10.0}})]
@@ -65,7 +69,7 @@
           route      (route {source-id  [{:balance 15.0}]
                              destiny-id [{:balance 5.0}]})
           response   (route {:request-method :post
-                             :uri            "/v1/transactions/transfers"
+                             :uri            transfer-path
                              :headers        {"content-type" "application/edn"
                                               "accept"       "application/transit+json"}
                              :body-params    {:source  {:reference-id source-id}
@@ -82,7 +86,7 @@
           route      (route {source-id  [{:balance 15.0}]
                              destiny-id [{:balance 5.0}]})
           response   (route {:request-method :post
-                             :uri            "/v1/transactions/transfers"
+                             :uri            transfer-path
                              :headers        {"content-type" "application/edn"
                                               "accept"       "application/transit+json"}
                              :body-params    {:source  {:reference-id source-id}

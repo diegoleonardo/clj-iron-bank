@@ -16,4 +16,4 @@
       (is (match? {:status 200
                    :body   "hello world"}
                   (route {:request-method :get
-                          :uri            "/v1/test"}))))))
+                          :uri            "/api/v1/test"}))))))
