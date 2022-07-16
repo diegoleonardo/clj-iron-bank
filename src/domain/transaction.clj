@@ -25,5 +25,3 @@
           to   (deposit {:account destiny :amount amount})]
       {:transfer {:source  from
                   :destiny to}})))
-
-(debit {:amount 5.0, :account {:balance 25.0}, :reference-id "6b9bb4b9-ee07-4981-b1c8-2f27b4ddbaa4"})
