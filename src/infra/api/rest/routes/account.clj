@@ -37,11 +37,11 @@
    {:middleware [(middleware/wrap-dependencies deps)]}
    [""
     {:middleware [wrap-keyword-code]
-     :post {:summary "Route to create an account"
-            :handler create-handler}}]
+     :post       {:summary "Route to create an account"
+                  :handler create-handler}}]
    ["/:reference-id" {:get {:summary "Route to get an account data"
                             :handler fetch-handler}
 
-                      :patch {:summary "Route to update an account"
+                      :patch {:summary    "Route to update an account"
                               :middleware [wrap-keyword-code]
-                              :handler update-handler}}]])
+                              :handler    update-handler}}]])
